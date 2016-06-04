@@ -1,5 +1,5 @@
-<div ng-controller="View1Ctrl">
-    <h1>The Button</h1>
+<div ng-controller="TheButtonController">
+    <h1>The Button <button class="btn btn-default" ng-click="reloadRoute()">Clear</button></h1>
     <div class="col-md-8 panel panel-default">
         <div class="panel-body">
             <h2>Questions</h2>
@@ -138,6 +138,10 @@
                             <input type="radio" name="buttonColor" id="otherStrip" autocomplete="off"> Other <span
                                 class="glyphicon glyphicon-ok hidden" aria-hidden="true" id="otherStripCheck"></span>
                         </label>
+                        <br><br>
+                        <div class="alert alert-success hidden" id="release1"><h3>Release the button when there is a 1 in any position on the countdown timer.</h3></div>
+                        <div class="alert alert-success hidden" id="release4"><h3>Release the button when there is a 4 in any position on the countdown timer.</h3></div>
+                        <div class="alert alert-success hidden" id="release5"><h3>Release the button when there is a 5 in any position on the countdown timer.</h3></div>
                     </div>
                 </div>
             </div>

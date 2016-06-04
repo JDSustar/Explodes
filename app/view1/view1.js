@@ -48,39 +48,40 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/view1', {
             templateUrl: 'view1/view1.html',
-            controller: 'View1Ctrl'
+            controller: 'TheButtonController'
         });
     }])
 
-    .controller('View1Ctrl', function ($scope) {
-        $scope.currentButtonColor = null;
+    .controller('TheButtonController', ['$scope', '$route', function TheButtonController($scope, $route) {
+        $scope.reloadRoute = function() {
+            $route.reload();
+        };
 
         $("#blueButton").click(function () {
             hideAllColorChecks();
             $("#blueCheck").removeClass("hidden");
             currentButtonColor = BUTTON_COLOR.BLUE;
-            $scope.currentButtonColor = BUTTON_COLOR.BLUE;
             updatePage();
         });
 
         $("#yellowButton").click(function () {
             hideAllColorChecks();
             $("#yellowCheck").removeClass("hidden");
-            $scope.currentButtonColor = currentButtonColor = BUTTON_COLOR.YELLOW;
+            currentButtonColor = BUTTON_COLOR.YELLOW;
             updatePage();
         });
 
         $("#redButton").click(function () {
             hideAllColorChecks();
             $("#redCheck").removeClass("hidden");
-            $scope.currentButtonColor = currentButtonColor = BUTTON_COLOR.RED;
+            currentButtonColor = BUTTON_COLOR.RED;
             updatePage();
         });
 
         $("#whiteButton").click(function () {
             hideAllColorChecks();
             $("#whiteCheck").removeClass("hidden");
-            $scope.currentButtonColor = currentButtonColor = BUTTON_COLOR.WHITE;
+            currentButtonColor = BUTTON_COLOR.WHITE;
             updatePage();
         });
 
@@ -181,7 +182,7 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
             IS_CAR = false;
             updatePage();
         });
-    });
+    }]);
 
 var hideAllColorChecks = function () {
     $("#blueCheck").addClass("hidden");
@@ -238,6 +239,20 @@ var updatePage = function () {
         $("#immediateDiffuseAlert").removeClass("hidden");
     } else if (HOLD_BUTTON_SITUATION) {
         $("#holdPanel").removeClass("hidden");
+    }
+
+    if(currentStripColor == STRIP_COLOR.BLUE) {
+        $("#release1").addClass("hidden");
+        $("#release4").removeClass("hidden");
+        $("#release5").addClass("hidden");
+    } else if (currentStripColor == STRIP_COLOR.YELLOW) {
+        $("#release1").addClass("hidden");
+        $("#release4").addClass("hidden");
+        $("#release5").removeClass("hidden");
+    } else if (currentStripColor == STRIP_COLOR.OTHER) {
+        $("#release1").removeClass("hidden");
+        $("#release4").addClass("hidden");
+        $("#release5").addClass("hidden");
     }
 };
 
