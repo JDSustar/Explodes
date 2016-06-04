@@ -5,6 +5,12 @@ var currentButtonWord = null;
 var currentStripColor = null;
 var numBatteries = null;
 
+var CASE_RESULT = {
+    FALSE: 0,
+    TRUE: 1,
+    NOT_ENOUGH_INFO: 2
+};
+
 var BUTTON_COLOR = {
     BLUE: 1,
     YELLOW: 2,
@@ -48,7 +54,7 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
 
     .controller('View1Ctrl', function ($scope) {
         $scope.currentButtonColor = null;
-        
+
         $("#blueButton").click(function () {
             hideAllColorChecks();
             $("#blueCheck").removeClass("hidden");
@@ -177,57 +183,143 @@ angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
         });
     });
 
-var hideAllColorChecks = function() {
+var hideAllColorChecks = function () {
     $("#blueCheck").addClass("hidden");
     $("#yellowCheck").addClass("hidden");
     $("#redCheck").addClass("hidden");
     $("#whiteCheck").addClass("hidden");
 };
 
-var hideAllWordChecks = function() {
+var hideAllWordChecks = function () {
     $("#abortCheck").addClass("hidden");
     $("#detonateCheck").addClass("hidden");
     $("#holdCheck").addClass("hidden");
 };
 
-var hideAllStripChecks = function() {
+var hideAllStripChecks = function () {
     $("#blueStripCheck").addClass("hidden");
     $("#yellowStripCheck").addClass("hidden");
     $("#otherStripCheck").addClass("hidden");
 };
 
-var hideAllBatChecks = function() {
+var hideAllBatChecks = function () {
     $("#oneBatCheck").addClass("hidden");
     $("#zeroBatCheck").addClass("hidden");
     $("#moreBatCheck").addClass("hidden");
     $("#twoBatCheck").addClass("hidden");
 };
 
-var updatePage = function() {
+var updatePage = function () {
     HOLD_BUTTON_SITUATION = false;
     IMMEDIATE_SITUATION = false;
+    $("#holdPanel").addClass("hidden");
+    $("#immediateDiffuseAlert").addClass("hidden");
+    $("#moreInfoAlert").addClass("hidden");
 
-    if(currentButtonColor == BUTTON_COLOR.YELLOW) {
+    if (isCase1() == CASE_RESULT.TRUE) {
         HOLD_BUTTON_SITUATION = true;
-    } else if (currentButtonColor == BUTTON_COLOR.BLUE && currentButtonWord == BUTTON_WORD.ABORT) {
+    } else if (isCase2() == CASE_RESULT.TRUE) {
+        IMMEDIATE_SITUATION = true;
+    } else if (isCase3() == CASE_RESULT.TRUE) {
         HOLD_BUTTON_SITUATION = true;
-    } else if ((numBatteries == BATTERY_COUNT.TWO || numBatteries == BATTERY_COUNT.MORE) && currentButtonWord == BUTTON_WORD.DETONATE) {
+    } else if (isCase4() == CASE_RESULT.TRUE) {
         IMMEDIATE_SITUATION = true;
-    } else if (numBatteries == BATTERY_COUNT.MORE && IS_FRK == true) {
+    } else if (isCase5() == CASE_RESULT.TRUE) {
+        HOLD_BUTTON_SITUATION = true;
+    } else if (isCase6() == CASE_RESULT.TRUE) {
         IMMEDIATE_SITUATION = true;
-    } else if (currentButtonColor == BUTTON_COLOR.RED && currentButtonWord == BUTTON_WORD.HOLD) {
-        IMMEDIATE_SITUATION = true;
-    } else if (currentButtonColor != null && currentButtonWord != null) {
+    } else if (isCase7() == CASE_RESULT.TRUE) {
         HOLD_BUTTON_SITUATION = true;
     }
-    
-    
+
+    if(!IMMEDIATE_SITUATION && !HOLD_BUTTON_SITUATION) {
+        $("#moreInfoAlert").removeClass("hidden");
+    } else if (IMMEDIATE_SITUATION) {
+        $("#immediateDiffuseAlert").removeClass("hidden");
+    } else if (HOLD_BUTTON_SITUATION) {
+        $("#holdPanel").removeClass("hidden");
+    }
 };
 
-var case1 = function() {
-    if(currentButtonColor == BUTTON_COLOR.BLUE && currentButtonWord == BUTTON_WORD.ABORT){
-        return true;
-    } else if(currentButtonColor != null && currentButtonColor != BUTTON_COLOR.BLUE) {
-        return false;
+var isCase1 = function () {
+    if (currentButtonColor == BUTTON_COLOR.BLUE && currentButtonWord == BUTTON_WORD.ABORT) {
+        return CASE_RESULT.TRUE;
+    } else if (currentButtonColor != null && currentButtonColor != BUTTON_COLOR.BLUE) {
+        return CASE_RESULT.FALSE;
+    } else if (currentButtonWord != null && currentButtonWord != BUTTON_WORD.ABORT) {
+        return CASE_RESULT.FALSE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
     }
-}
+};
+
+var isCase2 = function () {
+    if ((numBatteries == BATTERY_COUNT.TWO || numBatteries == BATTERY_COUNT.MORE) && currentButtonWord == BUTTON_WORD.DETONATE) {
+        return CASE_RESULT.TRUE;
+    } else if (numBatteries != null && !(numBatteries == BATTERY_COUNT.TWO || numBatteries == BATTERY_COUNT.MORE)) {
+        return CASE_RESULT.FALSE;
+    } else if (currentButtonWord != null && currentButtonWord != BUTTON_WORD.DETONATE) {
+        return CASE_RESULT.FALSE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
+    }
+};
+
+var isCase3 = function () {
+    if (currentButtonColor == BUTTON_COLOR.WHITE && IS_CAR == true) {
+        return CASE_RESULT.TRUE;
+    } else if (currentButtonColor != null && currentButtonColor != BUTTON_COLOR.WHITE) {
+        return CASE_RESULT.FALSE;
+    } else if (IS_CAR != null && IS_CAR == false) {
+        return CASE_RESULT.FALSE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
+    }
+};
+
+var isCase4 = function () {
+    if (numBatteries == BATTERY_COUNT.MORE && IS_FRK == true) {
+        return CASE_RESULT.TRUE;
+    } else if (numBatteries != null && !(numBatteries != BATTERY_COUNT.MORE)) {
+        return CASE_RESULT.FALSE;
+    } else if (IS_FRK != null && IS_FRK == false) {
+        return CASE_RESULT.FALSE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
+    }
+};
+
+var isCase5 = function () {
+    if (currentButtonColor == BUTTON_COLOR.YELLOW) {
+        return CASE_RESULT.TRUE;
+    } else if (currentButtonColor != null && currentButtonColor != BUTTON_COLOR.YELLOW) {
+        return CASE_RESULT.FALSE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
+    }
+};
+
+var isCase6 = function () {
+    if (currentButtonColor == BUTTON_COLOR.RED && currentButtonWord == BUTTON_WORD.HOLD) {
+        return CASE_RESULT.TRUE;
+    } else if (currentButtonColor != null && currentButtonColor != BUTTON_COLOR.RED) {
+        return CASE_RESULT.FALSE;
+    } else if (currentButtonWord != null && currentButtonWord != BUTTON_WORD.HOLD) {
+        return CASE_RESULT.FALSE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
+    }
+};
+
+var isCase7 = function () {
+    if (isCase1() == CASE_RESULT.FALSE &&
+        isCase2() == CASE_RESULT.FALSE &&
+        isCase3() == CASE_RESULT.FALSE &&
+        isCase4() == CASE_RESULT.FALSE &&
+        isCase5() == CASE_RESULT.FALSE &&
+        isCase6() == CASE_RESULT.FALSE) {
+        return CASE_RESULT.TRUE;
+    } else {
+        return CASE_RESULT.NOT_ENOUGH_INFO;
+    }
+};
