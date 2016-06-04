@@ -1,0 +1,32 @@
+<h1>The Button</h1>
+
+<div class="panel panel-default" id="buttonPanel">
+    <div class="panel-heading">What color is the button?</div>
+    <div class="panel-body">
+        <div data-toggle="buttons">
+            <label class="btn btn-primary" id="blueButton">
+                <input type="radio" name="buttonColor" id="blue" autocomplete="off" ontoggle=colorButtonClicked('#blueCheck');> Blue <span class="glyphicon glyphicon-ok hidden" aria-hidden="true" id="blueCheck"></span>
+            </label>
+            <label class="btn btn-warning" id="yellowButton">
+                <input type="radio" name="buttonColor" id="yellow" autocomplete="off"> Yellow <span class="glyphicon glyphicon-ok hidden" aria-hidden="true" id="yellowCheck"></span>
+            </label>
+            <label class="btn btn-danger" id="redButton">
+                <input type="radio" name="buttonColor" id="red" autocomplete="off"> Red <span class="glyphicon glyphicon-ok hidden" aria-hidden="true" id="redCheck"></span>
+            </label>
+            <label class="btn btn-default" id="whiteButton">
+                <input type="radio" name="buttonColor" id="white" autocomplete="off"> White <span class="glyphicon glyphicon-ok hidden" aria-hidden="true" id="whiteCheck"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default hidden" id="wordPanel">
+    <div class="panel-heading">What is the word on the Button?</div>
+    <div class="panel-body">
+        <div data-toggle="buttons">
+            <label class="btn btn-default" id="abortButton">
+                <input type="radio" name="buttonColor" id="abort" autocomplete="off" > ABORT <span class="glyphicon glyphicon-ok hidden" aria-hidden="true" id="abortCheck"></span>
+            </label>
+        </div>
+    </div>
+</div>
