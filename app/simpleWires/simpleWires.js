@@ -71,23 +71,20 @@ angular.module('myApp.simpleWires', ['ngRoute', 'ui.bootstrap'])
                     return;
                 }
                 // Otherwise, if the last wire is white, cut the last wire.
-                else if ($scope.wires[2].color === "White")
+                if ($scope.wires[2].color === "White")
                 {
                     $scope.instructions = "Cut the last wire!";
                     return;
                 }
                 // Otherwise, if there is more than one blue wire, cut the last blue wire.
-                else if (colorCounts.Blue > 1)
+                if (colorCounts.Blue > 1)
                 {
                     $scope.instructions = "Cut the last blue wire!";
                     return;
                 }
                 // Otherwise, cut the last wire.
-                else
-                {
-                    $scope.instructions = "Cut the last wire!";
-                    return;
-                }
+                $scope.instructions = "Cut the last wire!";
+                return;
             }
             else if (wireCount === 4)
             {
@@ -104,29 +101,26 @@ angular.module('myApp.simpleWires', ['ngRoute', 'ui.bootstrap'])
                     }
                 }
                 // Otherwise, if the last wire is yellow and there are no red wires, cut the first wire.
-                else if ($scope.wires[3].color === "Yellow" && colorCounts.Red === 0)
+                if ($scope.wires[3].color === "Yellow" && colorCounts.Red === 0)
                 {
                     $scope.instructions = "Cut the first wire!";
                     return;
                 }
                 // Otherwise, if there is exactly one blue wire, cut the first wire.
-                else if (colorCounts.Blue === 1)
+                if (colorCounts.Blue === 1)
                 {
                     $scope.instructions = "Cut the first wire!";
                     return;
                 }
                 // Otherwise, if there is more than one yellow wire, cut the last wire.
-                else if (colorCounts.Yellow > 1)
+                if (colorCounts.Yellow > 1)
                 {
                     $scope.instructions = "Cut the last wire!";
                     return;
                 }
                 // Otherwise, cut the second wire.
-                else
-                {
-                    $scope.instructions = "Cut the second wire!";
-                    return;
-                }
+                $scope.instructions = "Cut the second wire!";
+                return;
             }
             else if (wireCount === 5)
             {
@@ -160,11 +154,8 @@ angular.module('myApp.simpleWires', ['ngRoute', 'ui.bootstrap'])
                     return;
                 }
                 // Otherwise, cut the first wire.
-                else
-                {
-                    $scope.instructions = "Cut the first wire!";
-                    return;
-                }
+                $scope.instructions = "Cut the first wire!";
+                return;
             }
             else if (wireCount === 6)
             {
@@ -183,23 +174,20 @@ angular.module('myApp.simpleWires', ['ngRoute', 'ui.bootstrap'])
                     }
                 }
                 // Otherwise, if there is exactly one yellow wire and there is more than one white wire, cut the fourth wire.
-                else if (colorCounts.Yellow === 1 && colorCounts.White > 1)
+                if (colorCounts.Yellow === 1 && colorCounts.White > 1)
                 {
                     $scope.instructions = "Cut the fourth wire!";
                     return;
                 }
                 // Otherwise, if there are no red wires, cut the last wire.
-                else if (colorCounts.Red === 0)
+                if (colorCounts.Red === 0)
                 {
                     $scope.instructions = "Cut the last wire!";
                     return;
                 }
                 // Otherwise, cut the fourth wire.
-                else
-                {
-                    $scope.instructions = "Cut the fourth wire!";
-                    return;
-                }
+                $scope.instructions = "Cut the fourth wire!";
+                return;
             }
             console.log(colorCounts);
             $scope.instructions = "Provide more information";
