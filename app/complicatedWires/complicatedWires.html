@@ -6,12 +6,12 @@
             <div class="panel panel-default" id="wirePanel">
                 <div class="panel-heading">Enter the wires' coloring</div>
                 <div class="panel-body">
-                    <table class="table table-striped">
+                    <table class="table">
                         <tbody>
                         <!-- Reset -->
                         <tr>
                             <td ng-repeat="wire in wires">
-                                <label class="btn btn-default" id="noWireButton{{wire.name}}" ng-click="wire.reset()">
+                                <label class="btn btn-default" id="noWireButton{{wire.name}}" ng-click="wire.reset(); updateResults()">
                                     No Wire<span
                                         class="glyphicon glyphicon-ok hidden" id="noCheck{{wire.name}}"></span>
                                 </label>
@@ -19,15 +19,15 @@
                         </tr>
                         <!-- LEDs -->
                         <tr>
-                            <td ng-repeat="wire in wires">
-                                <label class="btn btn-default ledButton" id="ledButton{{wire.name}}" ng-click="wire.led = !wire.led">
+                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut}">
+                                <label class="btn btn-default ledButton" id="ledButton{{wire.name}}" ng-click="wire.led = !wire.led; updateResults()">
                                     {{wire.name}}
                                     <span class="glyphicon glyphicon-asterisk" ng-class="{hidden: !wire.led}"></span>
                                 </label>
                             </td>
                         </tr>
                         <tr>
-                            <td ng-repeat="wire in wires">
+                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut}">
                                 <div>
 
                                     <label class="btn btn-primary" ng-click="wire.blue = !wire.blue; updateResults()">
@@ -47,8 +47,8 @@
                         </tr>
                         <!-- Stars -->
                         <tr>
-                            <td ng-repeat="wire in wires">
-                                <label class="btn btn-default" id="starButton{{wire.name}}" ng-click="wire.star = !wire.star">
+                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut}">
+                                <label class="btn btn-default" id="starButton{{wire.name}}" ng-click="wire.star = !wire.star; updateResults()">
                                     {{wire.name}}
                                     <span class="glyphicon glyphicon-star" ng-class="{hidden: !wire.star}"></span>
                                 </label>
@@ -98,15 +98,13 @@
                 <div class="panel-heading">Is there a parallel port on the bomb?</div>
                 <div class="panel-body">
                     <div>
-                        <label class="btn btn-success" ng-click="updateResults()">
-                            <input type="radio" ng-model="parallelPort" value="true">
+                        <label class="btn btn-success" ng-click="parallelPort = true; updateResults()">
                             <h4><strong>YES</strong></h4> <span
-                                class="glyphicon glyphicon-ok" ng-class="{hidden: parallelPort === 'false'}"></span>
+                                class="glyphicon glyphicon-ok" ng-class="{hidden: parallelPort == false}"></span>
                         </label>
-                        <label class="btn btn-danger" ng-click="updateResults()">
-                            <input type="radio" ng-model="parallelPort" value="false">
+                        <label class="btn btn-danger" ng-click="parallelPort = false; updateResults()">
                             <h4><strong>NO</strong></h4> <span
-                                class="glyphicon glyphicon-ok" ng-class="{hidden: parallelPort === 'true'}"></span>
+                                class="glyphicon glyphicon-ok" ng-class="{hidden: parallelPort == true}"></span>
                         </label>
                     </div>
                 </div>

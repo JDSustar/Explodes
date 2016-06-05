@@ -18,6 +18,7 @@ Wire.prototype.reset = function()
     this.blue = false;
     this.led = false;
     this.star = false;
+    this.cut = false;
 };
 
 angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
@@ -34,10 +35,10 @@ angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
             $route.reload();
         };
 
-        $scope.instructions = "Provide more information";
+        $scope.instructions = "Red background means cut the wire!";
         $scope.serial = "";
         $scope.batteries = "0";
-        $scope.parallelPort = 'false';
+        $scope.parallelPort = false;
         $scope.wires = [
             new Wire("1"),
             new Wire("2"),
@@ -50,8 +51,33 @@ angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
             console.log("Updating Results!");
             var serialCheck = isLastDigitEven($scope.serial);
             var twoOrMoreBatteries = $scope.batteries === "2" || $scope.batteries === "3+";
-            var hasParallelPort = $scope.parallelPort === "true";
+            var hasParallelPort = $scope.parallelPort === true;
             // Venn Diagram magic
-            $scope.instructions = "Provide more information";
-        }
+            for (var i = 0; i < $scope.wires.length; i++)
+            {
+                var wire = $scope.wires[i];
+                if (!wire.red && ((!wire.blue && !wire.star && !wire.led) || (!wire.blue && wire.star && !wire.led) || (wire.blue && !wire.star && wire.led)))
+                {
+                    wire.cut = true;
+                    continue;
+                }
+                if (((wire.red || wire.blue) && (!wire.star && !wire.led)) || (wire.red && wire.blue && !wire.star && wire.led))
+                {
+                    wire.cut = serialCheck;
+                    continue;
+                }
+                if (wire.blue && ((!(wire.red && wire.star) && wire.led) || (!wire.blue && wire.star && !wire.led) || (wire.blue && !wire.star && wire.led)))
+                {
+                    wire.cut = hasParallelPort;
+                    continue;
+                }
+                if ((!wire.blue && wire.led) && ((wire.red && !wire.star) || (wire.red && wire.star) || (!wire.red && wire.star)))
+                {
+                    wire.cut = twoOrMoreBatteries;
+                    continue;
+                }
+                wire.cut = false;
+            }
+        };
+        $scope.updateResults();
     }]);
