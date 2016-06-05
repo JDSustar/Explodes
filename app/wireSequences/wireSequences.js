@@ -1,7 +1,7 @@
 angular.module('myApp.wireSequences', ['ngRoute', 'ui.bootstrap'])
 
     .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/theButton', {
+        $routeProvider.when('/wireSequences', {
             templateUrl: 'wireSequences/wireSequences.html',
             controller: 'WireSequencesController'
         });

@@ -43,7 +43,7 @@ var IS_CAR = null;
 var HOLD_BUTTON_SITUATION = false;
 var IMMEDIATE_SITUATION = false;
 
-angular.module('myApp.view1', ['ngRoute', 'ui.bootstrap'])
+angular.module('myApp.theButton', ['ngRoute', 'ui.bootstrap'])
 
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/theButton', {
