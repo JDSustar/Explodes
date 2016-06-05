@@ -1,5 +1,5 @@
-<h1>Simple Horizontal Wires</h1>
 <div ng-controller="SimpleWireController">
+    <h1>Simple Horizontal Wires <button class="btn btn-default" ng-click="reloadRoute()">Clear</button></h1>
     <div class="col-md-8 panel panel-default">
         <div class="panel-body">
             <h2>Questions</h2>
@@ -57,6 +57,6 @@
         <ul>
             <li ng-repeat="wire in wires">{{wire.color}}</li>
         </ul>
-        <div class="alert alert-success" id="release1"><h3>{{instructions}}</h3></div>
+        <div class="alert alert-info" id="release1"><h3>{{instructions}}</h3></div>
     </div>
 </div>
