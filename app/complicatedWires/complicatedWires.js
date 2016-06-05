@@ -19,6 +19,7 @@ Wire.prototype.reset = function()
     this.led = false;
     this.star = false;
     this.cut = false;
+    this.valid = false;
 };
 
 angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
@@ -35,9 +36,9 @@ angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
             $route.reload();
         };
 
-        $scope.instructions = "Red background means cut the wire!";
+        $scope.instructions = "Red:Cut Green:Don't Cut";
         $scope.serial = "";
-        $scope.batteries = "0";
+        $scope.batteries = null;
         $scope.parallelPort = false;
         $scope.wires = [
             new Wire("1"),
@@ -56,6 +57,15 @@ angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
             for (var i = 0; i < $scope.wires.length; i++)
             {
                 var wire = $scope.wires[i];
+                if (wire.red || wire.white || wire.blue)
+                {
+                    wire.valid = true;
+                }
+                else
+                {
+                    wire.valid = false;
+                    continue;
+                }
                 if (!wire.red && ((!wire.blue && !wire.star && !wire.led) || (!wire.blue && wire.star && !wire.led) || (wire.blue && !wire.star && wire.led)))
                 {
                     wire.cut = true;

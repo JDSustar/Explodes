@@ -3,64 +3,9 @@
     <div class="col-md-8 panel panel-default">
         <div class="panel-body">
             <h2>Questions</h2>
-            <div class="panel panel-default" id="wirePanel">
-                <div class="panel-heading">Enter the wires' coloring</div>
-                <div class="panel-body">
-                    <table class="table">
-                        <tbody>
-                        <!-- Reset -->
-                        <tr>
-                            <td ng-repeat="wire in wires">
-                                <label class="btn btn-default" id="noWireButton{{wire.name}}" ng-click="wire.reset(); updateResults()">
-                                    No Wire<span
-                                        class="glyphicon glyphicon-ok hidden" id="noCheck{{wire.name}}"></span>
-                                </label>
-                            </td>
-                        </tr>
-                        <!-- LEDs -->
-                        <tr>
-                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut}">
-                                <label class="btn btn-default ledButton" id="ledButton{{wire.name}}" ng-click="wire.led = !wire.led; updateResults()">
-                                    {{wire.name}}
-                                    <span class="glyphicon glyphicon-asterisk" ng-class="{hidden: !wire.led}"></span>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut}">
-                                <div>
-
-                                    <label class="btn btn-primary" ng-click="wire.blue = !wire.blue; updateResults()">
-                                        Blue <span
-                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.blue}"></span>
-                                    </label>
-                                    <label class="btn btn-danger" ng-click="wire.red = !wire.red; updateResults()">
-                                        Red <span
-                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.red}"></span>
-                                    </label>
-                                    <label class="btn btn-default" ng-click="wire.white = !wire.white; updateResults()">
-                                        White <span
-                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.white}"></span>
-                                    </label>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Stars -->
-                        <tr>
-                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut}">
-                                <label class="btn btn-default" id="starButton{{wire.name}}" ng-click="wire.star = !wire.star; updateResults()">
-                                    {{wire.name}}
-                                    <span class="glyphicon glyphicon-star" ng-class="{hidden: !wire.star}"></span>
-                                </label>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <!-- Serial Number -->
             <div class="panel panel-default" id="serialPanel">
-                <div class="panel-heading">Enter the Serial Number</div>
+                <div class="panel-heading">Enter at least the last number of the Serial Number</div>
                 <div class="panel-body">
                     <input type="text" ng-model="serial" ng-change="updateResults()">
                 </div>
@@ -109,12 +54,70 @@
                     </div>
                 </div>
             </div>
+            <!-- Wires -->
+            <div class="panel panel-default" id="wirePanel">
+                <div class="panel-heading">Enter the wires' coloring</div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tbody>
+                        <!-- Reset -->
+                        <tr>
+                            <td ng-repeat="wire in wires">
+                                <label class="btn btn-default" id="noWireButton{{wire.name}}" ng-click="wire.reset(); updateResults()">
+                                    No Wire<span
+                                        class="glyphicon glyphicon-ok hidden" id="noCheck{{wire.name}}"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <!-- LEDs -->
+                        <tr>
+                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut && wire.valid, success: !wire.cut && wire.valid}">
+                                <label class="btn btn-default ledButton" id="ledButton{{wire.name}}" ng-click="wire.led = !wire.led; updateResults()">
+                                    {{wire.name}}
+                                    <span class="glyphicon glyphicon-asterisk" ng-class="{hidden: !wire.led}"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut && wire.valid, success: !wire.cut && wire.valid}">
+                                <div>
+
+                                    <label class="btn btn-primary" ng-click="wire.blue = !wire.blue; updateResults()">
+                                        Blue <span
+                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.blue}"></span>
+                                    </label>
+                                    <label class="btn btn-danger" ng-click="wire.red = !wire.red; updateResults()">
+                                        Red <span
+                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.red}"></span>
+                                    </label>
+                                    <label class="btn btn-default" ng-click="wire.white = !wire.white; updateResults()">
+                                        White <span
+                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.white}"></span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- Stars -->
+                        <tr>
+                            <td ng-repeat="wire in wires" ng-class="{danger: wire.cut && wire.valid, success: !wire.cut && wire.valid}">
+                                <label class="btn btn-default" id="starButton{{wire.name}}" ng-click="wire.star = !wire.star; updateResults()">
+                                    {{wire.name}}
+                                    <span class="glyphicon glyphicon-star" ng-class="{hidden: !wire.star}"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-4 panel panel-default">
         Serial: {{serial}}
         <br />
         Batteries: {{batteries}}
+        <br />
+        Parallel Port: {{parallelPort}}
         <br />
         <div class="alert alert-success" id="release1"><h3>{{instructions}}</h3></div>
     </div>
