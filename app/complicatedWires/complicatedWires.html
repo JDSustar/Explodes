@@ -1,5 +1,5 @@
-<h1>Complicated Vertical Wires</h1>
 <div ng-controller="ComplicatedWireController">
+    <h1>Complicated Vertical Wires <button class="btn btn-default" ng-click="reloadRoute()">Clear</button></h1>
     <div class="col-md-8 panel panel-default">
         <div class="panel-body">
             <h2>Questions</h2>
@@ -8,41 +8,39 @@
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>
+                        <!-- Reset -->
+                        <tr>
+                            <td ng-repeat="wire in wires">
+                                <label class="btn btn-default" id="noWireButton{{wire.name}}" ng-click="wire.reset()">
+                                    No Wire<span
+                                        class="glyphicon glyphicon-ok hidden" id="noCheck{{wire.name}}"></span>
+                                </label>
+                            </td>
+                        </tr>
                         <!-- LEDs -->
                         <tr>
                             <td ng-repeat="wire in wires">
-                                <label class="btn btn-default ledButton" id="ledButton{{wire.name}}">
+                                <label class="btn btn-default ledButton" id="ledButton{{wire.name}}" ng-click="wire.led = !wire.led">
                                     {{wire.name}}
-                                    <span class="glyphicon glyphicon-asterisk hidden"></span>
+                                    <span class="glyphicon glyphicon-asterisk" ng-class="{hidden: !wire.led}"></span>
                                 </label>
                             </td>
                         </tr>
                         <tr>
                             <td ng-repeat="wire in wires">
                                 <div>
-                                    <label class="btn btn-default" id="noWireButton{{wire.name}}">
-                                        <input type="radio" value="None" ng-model="wire.color" ng-change="updateResults()"> No Wire <span
-                                            class="glyphicon glyphicon-ok hidden" id="noCheck{{wire.name}}"></span>
+
+                                    <label class="btn btn-primary" ng-click="wire.blue = !wire.blue; updateResults()">
+                                        Blue <span
+                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.blue}"></span>
                                     </label>
-                                    <label class="btn btn-primary" id="blueButton{{wire.name}}">
-                                        <input type="radio" value="Blue" ng-model="wire.color" ng-change="updateResults()"> Blue <span
-                                            class="glyphicon glyphicon-ok hidden" id="blueCheck{{wire.name}}"></span>
+                                    <label class="btn btn-danger" ng-click="wire.red = !wire.red; updateResults()">
+                                        Red <span
+                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.red}"></span>
                                     </label>
-                                    <label class="btn btn-danger" id="redButton{{wire.name}}">
-                                        <input type="radio" value="Red" ng-model="wire.color" ng-change="updateResults()"> Red <span
-                                            class="glyphicon glyphicon-ok hidden" id="redCheck{{wire.name}}"></span>
-                                    </label>
-                                    <label class="btn btn-default" id="whiteButton{{wire.name}}">
-                                        <input type="radio" value="White" ng-model="wire.color" ng-change="updateResults()"> White <span
-                                            class="glyphicon glyphicon-ok hidden" id="whiteCheck{{wire.name}}"></span>
-                                    </label>
-                                    <label class="btn btn-warning" id="yellowButton{{wire.name}}">
-                                        <input type="radio" value="Yellow" ng-model="wire.color" ng-change="updateResults()"> Yellow <span
-                                            class="glyphicon glyphicon-ok hidden" id="yellowCheck{{wire.name}}"></span>
-                                    </label>
-                                    <label class="btn btn-default" id="blackButton{{wire.name}}">
-                                        <input type="radio" value="Black" ng-model="wire.color" ng-change="updateResults()"> <strong>Black</strong> <span
-                                            class="glyphicon glyphicon-ok hidden" id="blackCheck{{wire.name}}"></span>
+                                    <label class="btn btn-default" ng-click="wire.white = !wire.white; updateResults()">
+                                        White <span
+                                            class="glyphicon glyphicon-ok" ng-class="{hidden: !wire.white}"></span>
                                     </label>
                                 </div>
                             </td>
@@ -50,8 +48,9 @@
                         <!-- Stars -->
                         <tr>
                             <td ng-repeat="wire in wires">
-                                <label class="btn btn-default" id="starButton{{wire.name}}">
-                                    <span class="glyphicon glyphicon-star hidden"></span>
+                                <label class="btn btn-default" id="starButton{{wire.name}}" ng-click="wire.star = !wire.star">
+                                    {{wire.name}}
+                                    <span class="glyphicon glyphicon-star" ng-class="{hidden: !wire.star}"></span>
                                 </label>
                             </td>
                         </tr>
@@ -59,10 +58,57 @@
                     </table>
                 </div>
             </div>
+            <!-- Serial Number -->
             <div class="panel panel-default" id="serialPanel">
                 <div class="panel-heading">Enter the Serial Number</div>
                 <div class="panel-body">
                     <input type="text" ng-model="serial" ng-change="updateResults()">
+                </div>
+            </div>
+            <!-- Batteries -->
+            <div class="panel panel-default">
+                <div class="panel-heading">How many batteries are on the bomb?</div>
+                <div class="panel-body">
+                    <div>
+                        <label class="btn btn-default">
+                            <input type="radio" ng-model="batteries" value="0" ng-click="updateResults()">
+                            <h1><strong>0</strong></h1> <span
+                                class="glyphicon glyphicon-ok hidden"></span>
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" ng-model="batteries" value="1" ng-click="updateResults()">
+                            <h1><strong>1</strong></h1> <span
+                                class="glyphicon glyphicon-ok hidden"></span>
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" ng-model="batteries" value="2" ng-click="updateResults()">
+                            <h1><strong>2</strong></h1> <span
+                                class="glyphicon glyphicon-ok hidden"></span>
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" ng-model="batteries" value="3+" ng-click="updateResults()">
+                            <h1><strong>3+</strong></h1> <span
+                                class="glyphicon glyphicon-ok hidden"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- Parallel port -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Is there a parallel port on the bomb?</div>
+                <div class="panel-body">
+                    <div>
+                        <label class="btn btn-success" ng-click="updateResults()">
+                            <input type="radio" ng-model="parallelPort" value="true">
+                            <h4><strong>YES</strong></h4> <span
+                                class="glyphicon glyphicon-ok" ng-class="{hidden: parallelPort === 'false'}"></span>
+                        </label>
+                        <label class="btn btn-danger" ng-click="updateResults()">
+                            <input type="radio" ng-model="parallelPort" value="false">
+                            <h4><strong>NO</strong></h4> <span
+                                class="glyphicon glyphicon-ok" ng-class="{hidden: parallelPort === 'true'}"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,10 +116,8 @@
     <div class="col-md-4 panel panel-default">
         Serial: {{serial}}
         <br />
-        Your wires are:
-        <ul>
-            <li ng-repeat="wire in wires">{{wire.color}}</li>
-        </ul>
+        Batteries: {{batteries}}
+        <br />
         <div class="alert alert-success" id="release1"><h3>{{instructions}}</h3></div>
     </div>
 </div>

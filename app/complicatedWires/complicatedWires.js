@@ -1,30 +1,24 @@
 'use strict';
 
-var colorCounts =
+// Check to see if the last digit of the serial number is even
+function isLastDigitEven(serial)
 {
-    Blue: 0,
-    Red: 0,
-    White: 0,
-    Yellow: 0,
-    Black: 0,
-    reset: function() {
-        this.Blue = 0;
-        this.Red = 0;
-        this.White = 0;
-        this.Yellow = 0;
-        this.Black = 0;
-    }
-};
-
-// Check to see if the last digit of the serial number is odd
-function isLastDigitOdd(serial)
-{
-    if (['1', '3', '5', '7', '9'].indexOf(serial[serial.length-1]) > -1)
-        {
-            return true;
-        }
-    return false;
+    return ['0', '2', '4', '6', '8'].indexOf(serial[serial.length - 1]) > -1;
 }
+
+var Wire = function(myName)
+{
+    this.name = myName;
+    this.reset();
+};
+Wire.prototype.reset = function()
+{
+    this.red = false;
+    this.white = false;
+    this.blue = false;
+    this.led = false;
+    this.star = false;
+};
 
 angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
 
@@ -39,163 +33,25 @@ angular.module('myApp.complicatedWires', ['ngRoute', 'ui.bootstrap'])
         $scope.reloadRoute = function () {
             $route.reload();
         };
-        // Set up events
-        $(".ledButton").click(function (event) {
-            console.log(this);
-            $(this).find('span').removeClass("hidden");
-        });
 
         $scope.instructions = "Provide more information";
         $scope.serial = "";
+        $scope.batteries = "0";
+        $scope.parallelPort = 'false';
         $scope.wires = [
-            {name: "1", color: "None", led: false, star: false},
-            {name: "2", color: "None", led: false, star: false},
-            {name: "3", color: "None", led: false, star: false},
-            {name: "4", color: "None", led: false, star: false},
-            {name: "5", color: "None", led: false, star: false},
-            {name: "6", color: "None", led: false, star: false}
+            new Wire("1"),
+            new Wire("2"),
+            new Wire("3"),
+            new Wire("4"),
+            new Wire("5"),
+            new Wire("6")
         ];
         $scope.updateResults = function () {
-            colorCounts.reset();
-            var wireCount = 0;
-            for (var i = 0; i < $scope.wires.length; i++) {
-                var wire = $scope.wires[i];
-                colorCounts[wire.color] = colorCounts[wire.color] + 1;
-                if (wire.color !== "None")
-                {
-                    wireCount++;
-                }
-            }
-            console.log("There are " + wireCount + " wires");
-            // Having all of the color counts figured out, we can now start evaluating
-            if (wireCount === 3)
-            {
-                // If there are no red wires, cut the second wire.
-                if (colorCounts.Red === 0)
-                {
-                    $scope.instructions = "Cut the second wire!";
-                    return;
-                }
-                // Otherwise, if the last wire is white, cut the last wire.
-                if ($scope.wires[2].color === "White")
-                {
-                    $scope.instructions = "Cut the last wire!";
-                    return;
-                }
-                // Otherwise, if there is more than one blue wire, cut the last blue wire.
-                if (colorCounts.Blue > 1)
-                {
-                    $scope.instructions = "Cut the last blue wire!";
-                    return;
-                }
-                // Otherwise, cut the last wire.
-                $scope.instructions = "Cut the last wire!";
-                return;
-            }
-            else if (wireCount === 4)
-            {
-                // If there is more than one red wire and the last digit of the serial number is odd, cut the last red wire.
-                if (colorCounts.Red > 1) {
-                    if ($scope.serial === "")
-                    {
-                        $scope.instructions = "Please enter the serial number";
-                        return;
-                    }
-                    if (isLastDigitOdd($scope.serial)) {
-                        $scope.instructions = "Cut the last RED wire!";
-                        return;
-                    }
-                }
-                // Otherwise, if the last wire is yellow and there are no red wires, cut the first wire.
-                if ($scope.wires[3].color === "Yellow" && colorCounts.Red === 0)
-                {
-                    $scope.instructions = "Cut the first wire!";
-                    return;
-                }
-                // Otherwise, if there is exactly one blue wire, cut the first wire.
-                if (colorCounts.Blue === 1)
-                {
-                    $scope.instructions = "Cut the first wire!";
-                    return;
-                }
-                // Otherwise, if there is more than one yellow wire, cut the last wire.
-                if (colorCounts.Yellow > 1)
-                {
-                    $scope.instructions = "Cut the last wire!";
-                    return;
-                }
-                // Otherwise, cut the second wire.
-                $scope.instructions = "Cut the second wire!";
-                return;
-            }
-            else if (wireCount === 5)
-            {
-                if ($scope.serial === "")
-                {
-                    $scope.instructions = "Please enter the serial number";
-                    return;
-                }
-                // If the last wire is black and the last digit of the serial number is odd, cut the fourth wire.
-                if ($scope.wires[4].color === "Black") {
-                    if ($scope.serial === "")
-                    {
-                        $scope.instructions = "Please enter the serial number";
-                        return;
-                    }
-                    if (isLastDigitOdd($scope.serial)) {
-                        $scope.instructions = "Cut the fourth wire!";
-                        return;
-                    }
-                }
-                // Otherwise, if there is exactly one red wire and there is more than one yellow wire, cut the first wire.
-                if (colorCounts.Red === 1 && colorCounts.Yellow > 1)
-                {
-                    $scope.instructions = "Cut the first wire!";
-                    return;
-                }
-                // Otherwise, if there are no black wires, cut the second wire.
-                if (colorCounts.Black === 0)
-                {
-                    $scope.instructions = "Cut the second wire!";
-                    return;
-                }
-                // Otherwise, cut the first wire.
-                $scope.instructions = "Cut the first wire!";
-                return;
-            }
-            else if (wireCount === 6)
-            {
-                // If there are no yellow wires and the last digit of the serial number is odd, cut the third wire.
-                if (colorCounts.Yellow === 0)
-                {
-                    if ($scope.serial === "")
-                    {
-                        $scope.instructions = "Please enter the serial number";
-                        return;
-                    }
-                    if (isLastDigitOdd($scope.serial))
-                    {
-                        $scope.instructions = "Cut the third wire!";
-                        return;
-                    }
-                }
-                // Otherwise, if there is exactly one yellow wire and there is more than one white wire, cut the fourth wire.
-                if (colorCounts.Yellow === 1 && colorCounts.White > 1)
-                {
-                    $scope.instructions = "Cut the fourth wire!";
-                    return;
-                }
-                // Otherwise, if there are no red wires, cut the last wire.
-                if (colorCounts.Red === 0)
-                {
-                    $scope.instructions = "Cut the last wire!";
-                    return;
-                }
-                // Otherwise, cut the fourth wire.
-                $scope.instructions = "Cut the fourth wire!";
-                return;
-            }
-            console.log(colorCounts);
+            console.log("Updating Results!");
+            var serialCheck = isLastDigitEven($scope.serial);
+            var twoOrMoreBatteries = $scope.batteries === "2" || $scope.batteries === "3+";
+            var hasParallelPort = $scope.parallelPort === "true";
+            // Venn Diagram magic
             $scope.instructions = "Provide more information";
         }
     }]);
