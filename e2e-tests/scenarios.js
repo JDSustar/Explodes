@@ -26,14 +26,14 @@ describe('my app', function() {
   });
 
 
-  describe('view2', function() {
+  describe('simpleWires', function() {
 
     beforeEach(function() {
-      browser.get('index.html#!/view2');
+      browser.get('index.html#!/simpleWires');
     });
 
 
-    it('should render view2 when user navigates to /view2', function() {
+    it('should render simpleWires when user navigates to /simpleWires', function() {
       expect(element.all(by.css('[ng-view] p')).first().getText()).
         toMatch(/partial for view 2/);
     });

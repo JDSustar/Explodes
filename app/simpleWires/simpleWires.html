@@ -1,35 +1,39 @@
 <h1>Simple Horizontal Wires</h1>
-<div ng-controller="View2Ctrl as view2">
+<div ng-controller="SimpleWireController">
     <div class="col-md-8 panel panel-default">
         <div class="panel-body">
             <h2>Questions</h2>
-            <div class="panel panel-default" id="buttonPanel">
+            <div class="panel panel-default" id="wirePanel">
                 <div class="panel-heading">Enter the wires' coloring</div>
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>
-                        <tr ng-repeat="wire in view2.wires">
+                        <tr ng-repeat="wire in wires">
                             <td>
                                 <div>
                                     <label class="btn btn-default" id="noWireButton{{wire.name}}">
-                                        <input type="radio" ng-model="wire.color" value="None"> No Wire <span
+                                        <input type="radio" value="None" ng-model="wire.color" ng-change="updateResults()"> No Wire <span
                                             class="glyphicon glyphicon-ok hidden" id="noCheck{{wire.name}}"></span>
                                     </label>
                                     <label class="btn btn-primary" id="blueButton{{wire.name}}">
-                                        <input type="radio" ng-model="wire.color" value="Blue"> Blue <span
+                                        <input type="radio" value="Blue" ng-model="wire.color" ng-change="updateResults()"> Blue <span
                                             class="glyphicon glyphicon-ok hidden" id="blueCheck{{wire.name}}"></span>
                                     </label>
                                     <label class="btn btn-danger" id="redButton{{wire.name}}">
-                                        <input type="radio" value="Red" ng-model="wire.color"> Red <span
+                                        <input type="radio" value="Red" ng-model="wire.color" ng-change="updateResults()"> Red <span
                                             class="glyphicon glyphicon-ok hidden" id="redCheck{{wire.name}}"></span>
                                     </label>
                                     <label class="btn btn-default" id="whiteButton{{wire.name}}">
-                                        <input type="radio" value="White" ng-model="wire.color"> White <span
+                                        <input type="radio" value="White" ng-model="wire.color" ng-change="updateResults()"> White <span
                                             class="glyphicon glyphicon-ok hidden" id="whiteCheck{{wire.name}}"></span>
                                     </label>
                                     <label class="btn btn-warning" id="yellowButton{{wire.name}}">
-                                        <input type="radio" value="Yellow" ng-model="wire.color"> Yellow <span
+                                        <input type="radio" value="Yellow" ng-model="wire.color" ng-change="updateResults()"> Yellow <span
                                             class="glyphicon glyphicon-ok hidden" id="yellowCheck{{wire.name}}"></span>
+                                    </label>
+                                    <label class="btn btn-default" id="blackButton{{wire.name}}">
+                                        <input type="radio" value="Black" ng-model="wire.color" ng-change="updateResults()"> <strong>Black</strong> <span
+                                            class="glyphicon glyphicon-ok hidden" id="blackCheck{{wire.name}}"></span>
                                     </label>
                                 </div>
                             </td>
@@ -38,12 +42,21 @@
                     </table>
                 </div>
             </div>
+            <div class="panel panel-default" id="serialPanel">
+                <div class="panel-heading">Enter the Serial Number</div>
+                <div class="panel-body">
+                    <input type="text" ng-model="serial" ng-change="updateResults()">
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-4 panel panel-default">
+        Serial: {{serial}}
+        <br />
         Your wires are:
         <ul>
-            <li ng-repeat="wire in view2.wires">{{wire.color}}</li>
+            <li ng-repeat="wire in wires">{{wire.color}}</li>
         </ul>
+        <div class="alert alert-success" id="release1"><h3>{{instructions}}</h3></div>
     </div>
 </div>
