@@ -55,6 +55,16 @@ angular.module('myApp.theButton', ['ngRoute', 'ui.bootstrap'])
     .controller('TheButtonController', ['$scope', '$route', function TheButtonController($scope, $route) {
         $scope.reloadRoute = function() {
             $route.reload();
+            IS_CAR = null;
+            IS_FRK = null;
+
+            currentButtonColor = null;
+            currentButtonWord = null;
+            currentStripColor = null;
+            numBatteries = null;
+
+            HOLD_BUTTON_SITUATION = false;
+            IMMEDIATE_SITUATION = false
         };
 
         $("#blueButton").click(function () {
