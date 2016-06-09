@@ -6,7 +6,8 @@ angular.module('myApp', [
   'myApp.theButton',
   'myApp.simpleWires',
   'myApp.complicatedWires',
-    'myApp.wireSequences',
+  'myApp.wireSequences',
+    'myApp.memory',
   'myApp.version'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
