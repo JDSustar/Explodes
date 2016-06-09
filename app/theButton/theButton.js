@@ -21,7 +21,8 @@ var BUTTON_COLOR = {
 var BUTTON_WORD = {
     ABORT: 1,
     DETONATE: 2,
-    HOLD: 3
+    HOLD: 3,
+    PRESS: 4
 };
 
 var STRIP_COLOR = {
@@ -113,6 +114,13 @@ angular.module('myApp.theButton', ['ngRoute', 'ui.bootstrap'])
             hideAllWordChecks();
             $("#holdCheck").removeClass("hidden");
             currentButtonWord = BUTTON_WORD.HOLD;
+            updatePage();
+        });
+
+        $("#pressButton").click(function () {
+            hideAllWordChecks();
+            $("#pressCheck").removeClass("hidden");
+            currentButtonWord = BUTTON_WORD.PRESS;
             updatePage();
         });
 
