@@ -2,10 +2,17 @@
     <h1>Memory
         <button class="btn btn-default" ng-click="reloadRoute()">Clear</button>
     </h1>
-    <div class="col-md-8">
-
-    </div>
-    <div class="col-md-4">
-
+    <div class="panel panel-default" ng-repeat="stage in stages" ng-class="{'hidden': !stage.showPosition()}">
+        <div class="panel-heading">Stage {{stage.stageNumber}}</div>
+        <div class="panel-body">
+            <div class="col-md-8">
+                Number displayed on Screen: <input type="number" ng-model="stage.screenNumber" ng-change="stage.update()" ng-pattern="validScreenNumberRegex" /><br/><br />
+                <div class="alert alert-warning" ng-hide="stage.screenNumber.$valid">Please enter a number 1 - 4.</div>
+                Button Numbers in Order: <input type="number" ng-model="stage.buttonNumbers" ng-change="stage.update()" ng-maxlength="4"  />
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-success" ng-class="{'hidden': stage.numberPressed == null}">PRESS THE NUMBER {{stage.numberPressed}}</div>
+            </div>
+        </div>
     </div>
 </div>
