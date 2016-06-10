@@ -16,6 +16,11 @@
                 <div class="panel-body">
                     <div>
                         <label class="btn btn-default">
+                            <input type="radio" ng-model="batteries" value="Unknown" ng-click="updateResults()">
+                            <h1><strong>???</strong></h1> <span
+                                class="glyphicon glyphicon-ok hidden"></span>
+                        </label>
+                        <label class="btn btn-default">
                             <input type="radio" ng-model="batteries" value="0" ng-click="updateResults()">
                             <h1><strong>0</strong></h1> <span
                                 class="glyphicon glyphicon-ok hidden"></span>
@@ -62,6 +67,7 @@
                         <tbody>
                         <!-- Reset -->
                         <tr>
+                            <td></td>
                             <td ng-repeat="wire in wires">
                                 <label class="btn btn-default" id="noWireButton{{wire.name}}" ng-click="wire.reset(); updateResults()">
                                     No Wire<span
@@ -71,6 +77,7 @@
                         </tr>
                         <!-- LEDs -->
                         <tr>
+                            <td>LED:</td>
                             <td ng-repeat="wire in wires" ng-class="{danger: wire.cut && wire.valid, success: !wire.cut && wire.valid}">
                                 <label class="btn btn-default ledButton" id="ledButton{{wire.name}}" ng-click="wire.led = !wire.led; updateResults()">
                                     {{wire.name}}
@@ -79,6 +86,7 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Wire Colors:</td>
                             <td ng-repeat="wire in wires" ng-class="{danger: wire.cut && wire.valid, success: !wire.cut && wire.valid}">
                                 <div>
 
@@ -99,6 +107,7 @@
                         </tr>
                         <!-- Stars -->
                         <tr>
+                            <td>Star:</td>
                             <td ng-repeat="wire in wires" ng-class="{danger: wire.cut && wire.valid, success: !wire.cut && wire.valid}">
                                 <label class="btn btn-default" id="starButton{{wire.name}}" ng-click="wire.star = !wire.star; updateResults()">
                                     {{wire.name}}
